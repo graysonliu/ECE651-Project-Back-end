@@ -8,11 +8,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from models import User
-
-user = User.query.first()
-print(user.username, user.password)
-
 from views import blueprint
 
 app.register_blueprint(blueprint=blueprint)
