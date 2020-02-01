@@ -8,13 +8,48 @@ Flask running at http://66.112.218.89:5000.
 
 ## API
 
-#### Register
+Put token in HTTP headers.
 
-##### Request
+### Login
 
-URL: /api/v1/user/register
+#### /api/v1//login
 
-Method: POST
+##### POST
+
+Request Body
+
+| Key      | Datatype    | Note |
+| -------- | ----------- | ---- |
+| username | VARCHAR(20) |      |
+| password | String      |      |
+
+Response Body
+
+| Key   | Datatype | Note               |
+| ----- | -------- | ------------------ |
+| id    | INT      |                    |
+| token | String   | expire in one hour |
+
+### Users
+
+#### /api/v1/users
+
+| HTTP Method | Result                   | Permission |
+| ----------- | ------------------------ | ---------- |
+| GET         | Get a list of all users. | admin      |
+| POST        | Register a new user.     | user       |
+
+##### GET
+
+Response Body
+
+| Key       | Datatype | Note |
+| --------- | -------- | ---- |
+| user_list | List     |      |
+
+##### POST
+
+Request Body
 
 | Key      | Datatype    | Note                 |
 | -------- | ----------- | -------------------- |
@@ -23,41 +58,13 @@ Method: POST
 | password | String      | not null             |
 | gender   | BOOLEAN     | 0: female    1: male |
 
-##### Response
-
-HTTP 201:
+Response Body
 
 | Key   | Datatype | Note               |
 | ----- | -------- | ------------------ |
+| id    | INT      |                    |
 | token | String   | expire in one hour |
 
-HTTP 400: missing username or password
+### Error Handling
 
-HTTP 409: existing username
-
-
-
-#### Login
-
-URL: /api/v1/user/login
-
-Method: POST
-
-##### Request
-
-| Key      | Datatype    | Note |
-| -------- | ----------- | ---- |
-| username | VARCHAR(20) |      |
-| password | String      |      |
-
-##### Response
-
-HTTP 200:
-
-| Key   | Datatype | Note               |
-| ----- | -------- | ------------------ |
-| token | String   | expire in one hour |
-
-HTTP 400: missing username or password
-
-HTTP 401: wrong username or password
+Using HTTP status code with brief description of the error.
