@@ -27,10 +27,11 @@ CREATE TABLE `user` (
   `name` varchar(20) DEFAULT NULL,
   `username` varchar(20) NOT NULL,
   `password_hash` varchar(128) NOT NULL,
-  `gender` tinyint(1) DEFAULT NULL COMMENT '0: female	1: male',
+  `gender` int(11) DEFAULT NULL,
+  `admin` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +40,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (5,'Hello Kitty','hello','pbkdf2:sha256:50000$Pd3Nevb5$e59228f5e5e8528b6dc75ef78350370a7b654201231636e8312e7563540c8b37',0);
+INSERT INTO `user` VALUES (1,NULL,'admin','pbkdf2:sha256:50000$1e6DE78v$c305fc0738dfd5c799a4e339d8003a27765dcbd88c0f6493fa8c5c94fb97aecf',NULL,1),(2,'Alice Gold','alice','pbkdf2:sha256:50000$xc0v95V8$58339f46c9c3e419ea76afd3b23375ecf171cc8c090e9ab18a5d80f1eb05a1c6',0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-31  2:25:35
+-- Dump completed on 2020-02-01 23:49:54
