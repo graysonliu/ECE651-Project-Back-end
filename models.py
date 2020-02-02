@@ -8,7 +8,7 @@ class User(db.Model, Serializer):
     name = db.Column(db.String(20))
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    gender = db.Column(db.Boolean, comment='0: female\t1: male')
+    gender = db.Column(db.Integer)
     admin = db.Column(db.Boolean, nullable=False)
 
     def set_password(self, password):
