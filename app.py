@@ -11,4 +11,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
 
-import routes, commands
+import routes, commands, errors
