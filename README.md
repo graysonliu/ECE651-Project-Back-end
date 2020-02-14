@@ -2,8 +2,6 @@
 
 ## Server
 
-SSH: ece651@66.112.218.89:29611 (Password: ece651)
-
 Flask running at http://66.112.218.89:5000.
 
 ## API
@@ -14,7 +12,7 @@ All data interchanges are in JSON format.
 
 ### Login
 
-#### /api/v1//login
+#### /api/v1/login
 
 ##### POST
 
@@ -92,4 +90,13 @@ Request Body
 
 ### Error Code
 
-Using HTTP status code with a brief description of the error.
+| Customized Error Code | HTTP Status Code | Description             |
+| --------------------- | ---------------- | ----------------------- |
+| 1000                  | 401              | Invalid token.          |
+| 1001                  | 401              | Expired token.          |
+| 1002                  | 401              | No permission.          |
+| 1003                  | 401              | Login required.         |
+| 1004                  | 401              | Authentication failure. |
+| 1005                  | 409              | Existing username.      |
+| 1006                  | 400              | Missing data.           |
+

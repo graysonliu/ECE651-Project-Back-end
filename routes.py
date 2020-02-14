@@ -1,6 +1,7 @@
-from flask import request, abort, jsonify
+from flask import request, jsonify
 from models import User
 from app import app, db
+import errors as e
 from auth import generate_token, admin_required, login_required
 
 
@@ -23,9 +24,9 @@ def register():
     password = request.json.get('password')
     gender = request.json.get('gender')
     if username is None or password is None:
-        abort(400, description="missing username or password")
+        raise e.MissingData()
     if User.query.filter_by(username=username).first():
-        abort(409, description="existing username")
+        raise e.ExistingUsername()
     user = User(name=name, username=username, gender=gender, admin=False)
     user.set_password(password)
 
@@ -52,17 +53,17 @@ def update_user_info(user_id):
     old_password = request.json.get('old_password')
     if old_password is not None:
         if not user.verify_password(old_password):
-            abort(401, "wrong password")
+            raise e.AuthenticationFailure()
         new_password = request.json.get('new_password')
         if new_password is None:
-            abort(400, description="missing new password")
+            raise e.MissingData()
         user.set_password(new_password)
 
     # change username
     username = request.json.get('username')
     if username is not None:
         if username != user.username and User.query.filter_by(username=username).first():
-            abort(409, description="existing username")
+            raise e.ExistingUsername()
         user.username = username
 
     # change other information
@@ -80,8 +81,8 @@ def login():
     username = request.json.get('username')
     password = request.json.get('password')
     if username is None or password is None:
-        abort(400, description="missing username or password")
+        raise e.MissingData()
     user = User.query.filter_by(username=username).first()
     if user is None or not user.verify_password(password):
-        abort(401, description="wrong username or password")
+        raise e.AuthenticationFailure()
     return jsonify(id=user.id, token=generate_token(user.id))
