@@ -1,9 +1,10 @@
-from app import db
+from news_app import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from utils import Serializer
+from news_app.utils import Serializer
 
 
 class User(db.Model, Serializer):
+    __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(20))
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -22,3 +23,16 @@ class User(db.Model, Serializer):
         d = Serializer.serialize(self)
         [d.pop(attr, None) for attr in exclude]
         return d
+
+
+class NewsCategory(db.Model, Serializer):
+    __tablename__ = "NewsCategory"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(1024), nullable=False)
+
+
+class NewsSource(db.Model, Serializer):
+    __tablename__ = "NewsSource"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    url = db.Column(db.String(1024), nullable=False)
+    name = db.Column(db.String(1024), nullable=False)

@@ -16,32 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Dumping data for table `User`
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL,
-  `username` varchar(20) NOT NULL,
-  `password_hash` varchar(128) NOT NULL,
-  `gender` int(11) DEFAULT NULL,
-  `admin` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,NULL,'admin','pbkdf2:sha256:50000$1e6DE78v$c305fc0738dfd5c799a4e339d8003a27765dcbd88c0f6493fa8c5c94fb97aecf',NULL,1),(2,'Alice Gold','alice','pbkdf2:sha256:50000$xc0v95V8$58339f46c9c3e419ea76afd3b23375ecf171cc8c090e9ab18a5d80f1eb05a1c6',0,0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES (1,NULL,'bob','pbkdf2:sha256:50000$HpJ4WAi1$4330993e5439cf0352baaca9da6ad0ef42537f88fb7f630fb75bf2343e5157ec',NULL,0),(2,NULL,'alice','pbkdf2:sha256:50000$AQWKtCc7$948619742bce7f35a7d6e1edb9385789f5e428b53d637281dd5319c4dd59c88f',NULL,0);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-01 23:49:54
+-- Dump completed on 2020-02-16  2:49:29

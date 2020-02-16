@@ -1,7 +1,7 @@
 import click
 import getpass
-from app import app, db
-from models import User
+from news_app import app, db
+from news_app.models import User
 
 
 @app.cli.command()

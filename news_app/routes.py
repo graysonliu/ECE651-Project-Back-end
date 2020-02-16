@@ -1,8 +1,8 @@
 from flask import request, jsonify
-from models import User
-from app import app, db
-import errors as e
-from auth import generate_token, admin_required, login_required
+from news_app.models import User
+from news_app import app, db
+from news_app import errors as e
+from news_app.auth import generate_token, admin_required, login_required
 
 
 @app.route('/')

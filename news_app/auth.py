@@ -1,10 +1,10 @@
-from app import app
+from news_app import app
+from news_app import errors as e
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
     BadSignature, SignatureExpired
-from models import User
+from news_app.models import User
 import functools
 import os
-import errors as e
 from flask import request
 
 
