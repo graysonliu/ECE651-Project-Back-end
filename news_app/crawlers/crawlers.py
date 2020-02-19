@@ -15,8 +15,12 @@ class FacultiesAcademicsSourceSpider(scrapy.Spider):
             sources = {}
             self.categories[group.css('h2.black::text').get()] = sources
             for source_item in group.css('ul li'):
-                sources[source_item.css('span.blocklinks a::text').get()] = source_item.css(
-                    'span.blocklinks a::attr(href)').get() + 'news'
+                url = source_item.css('span.blocklinks a::attr(href)').get()
+                if url[-1] == '/':
+                    url += 'news'
+                else:
+                    url += '/news'
+                sources[source_item.css('span.blocklinks a::text').get()] = url
         filename = './news_app/crawlers/%s' % self.name
         with open(filename, 'w') as f:
             f.write(str(self.categories))
@@ -35,8 +39,12 @@ class OfficesServicesSourceSpider(scrapy.Spider):
         sources = {}
         self.categories[response.css('div.uw-site--header h1::text').get()] = sources
         for source_item in response.css('li.filterable-link'):
-            sources[source_item.css('a::text').get()] = source_item.css(
-                'a::attr(href)').get() + 'news'
+            url = source_item.css('a::attr(href)').get()
+            if url[-1] == '/':
+                url += 'news'
+            else:
+                url += '/news'
+            sources[source_item.css('a::text').get()] = url
         filename = './news_app/crawlers/%s' % self.name
         with open(filename, 'w') as f:
             f.write(str(self.categories))

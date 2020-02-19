@@ -88,6 +88,39 @@ Request Body
 | old_password | String      | optional, compulsory when new_password exists |
 | new_password | String      | optional, compulsory when old_password exists |
 
+### News
+
+#### /api/v1/news-source
+
+| HTTP Method | Result                             | Note |
+| ----------- | ---------------------------------- | ---- |
+| GET         | Get a list of all sources of news. |      |
+
+##### GET
+
+Response Body 
+
+```
+{
+    "news_source_list": [								# list of categories
+        {
+            "id": 2,									# id of the category
+            "name": "Faculties",						# name of the category
+            "sources": [								# list of sources in this category
+                {
+                    "id": 2,							# id of the source
+                    "name": "Applied Health Sciences"	# name of the source
+                },
+                {
+                    "id": 3,
+                    "name": "Arts"
+                },
+                ...
+        },
+        ...
+}
+```
+
 ### Error Code
 
 | Customized Error Code | HTTP Status Code | Description             |

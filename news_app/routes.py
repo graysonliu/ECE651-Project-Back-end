@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from news_app.models import User
+from news_app.models import *
 from news_app import app, db
 from news_app import errors as e
 from news_app.auth import generate_token, admin_required, login_required
@@ -86,3 +86,9 @@ def login():
     if user is None or not user.verify_password(password):
         raise e.AuthenticationFailure()
     return jsonify(id=user.id, token=generate_token(user.id))
+
+
+@app.route('/api/v1/news-source', methods=['GET'])
+def get_news_source():
+    news_source_list = NewsCategory.query.all()
+    return jsonify(news_source_list=NewsCategory.serialize_list(news_source_list))
