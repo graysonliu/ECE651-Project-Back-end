@@ -1,5 +1,5 @@
 from werkzeug.exceptions import HTTPException
-from app import app
+from news_app import app
 from flask import jsonify
 
 
