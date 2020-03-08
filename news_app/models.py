@@ -10,6 +10,9 @@ class User(db.Model, Serializer):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     gender = db.Column(db.Integer)
+    faculty = db.Column(db.String(128))
+    department = db.Column(db.String(128))
+    following = db.Column(db.String(1000))
     admin = db.Column(db.Boolean, nullable=False)
 
     def set_password(self, password):

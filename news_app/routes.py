@@ -23,11 +23,15 @@ def register():
     username = request.json.get('username')
     password = request.json.get('password')
     gender = request.json.get('gender')
+    faculty = request.json.get('faculty')
+    department = request.json.get('department')
+    following = request.json.get('following')
     if username is None or password is None:
         raise e.MissingData()
     if User.query.filter_by(username=username).first():
         raise e.ExistingUsername()
-    user = User(name=name, username=username, gender=gender, admin=False)
+    user = User(name=name, username=username, gender=gender, admin=False, faculty=faculty, department=department,
+                following=following)
     user.set_password(password)
 
     db.session.add(user)
@@ -67,7 +71,7 @@ def update_user_info(user_id):
         user.username = username
 
     # change other information
-    patch_attr = ['name', 'gender']
+    patch_attr = ['name', 'gender', 'faculty', 'department', 'following']
     for attr in patch_attr:
         value = request.json.get(attr)
         if value is not None:
