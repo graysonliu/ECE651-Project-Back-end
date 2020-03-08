@@ -51,12 +51,15 @@ Response Body
 
 Request Body
 
-| Key      | Datatype    | Note                           |
-| -------- | ----------- | ------------------------------ |
-| name     | VARCHAR(20) | optional                       |
-| username | VARCHAR(20) | compulsory, unique in database |
-| password | String      | compulsory                     |
-| gender   | INT         | optional                       |
+| Key        | Datatype     | Note                           |
+| ---------- | ------------ | ------------------------------ |
+| name       | VARCHAR(20)  | optional                       |
+| username   | VARCHAR(20)  | compulsory, unique in database |
+| password   | String       | compulsory                     |
+| gender     | INT          | optional                       |
+| faculty    | VARCHAR(128) | optional                       |
+| department | VARCHAR(128) | optional                       |
+| following  | VARCHAR(1000)| optional                       |
 
 Response Body
 
@@ -80,13 +83,16 @@ Send request to see the response body.
 
 Request Body
 
-| Key          | Datatype    | Note                                          |
-| ------------ | ----------- | --------------------------------------------- |
-| name         | VARCHAR(20) | optional                                      |
-| username     | VARCHAR(20) | optional, unique in database                  |
-| gender       | INT         | optional                                      |
-| old_password | String      | optional, compulsory when new_password exists |
-| new_password | String      | optional, compulsory when old_password exists |
+| Key          | Datatype     | Note                                          |
+| ------------ | ------------ | --------------------------------------------- |
+| name         | VARCHAR(20)  | optional                                      |
+| username     | VARCHAR(20)  | optional, unique in database                  |
+| gender       | INT          | optional                                      |
+| faculty      | VARCHAR(128) | optional                                      |
+| department   | VARCHAR(128) | optional                                      |
+| following    | VARCHAR(1000)| optional                                      |
+| old_password | String       | optional, compulsory when new_password exists |
+| new_password | String       | optional, compulsory when old_password exists |
 
 ### News
 
@@ -102,14 +108,14 @@ Response Body
 
 ```
 {
-    "news_source_list": [								# list of categories
+    "news_source_list": [                               # list of categories
         {
-            "id": 2,									# id of the category
-            "name": "Faculties",						# name of the category
-            "sources": [								# list of sources in this category
+            "id": 2,                                    # id of the category
+            "name": "Faculties",                        # name of the category
+            "sources": [                                # list of sources in this category
                 {
-                    "id": 2,							# id of the source
-                    "name": "Applied Health Sciences"	# name of the source
+                    "id": 2,                            # id of the source
+                    "name": "Applied Health Sciences"   # name of the source
                 },
                 {
                     "id": 3,
