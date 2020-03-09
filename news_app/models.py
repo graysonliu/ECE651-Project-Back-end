@@ -37,7 +37,7 @@ class NewsCategory(db.Model, Serializer):
         exclude = []
         d = Serializer.serialize(self)
         [d.pop(attr, None) for attr in exclude]
-        d['sources'] = NewsSource.serialize_list(self.sources)
+        d['sources'] = NewsSource.serialize_list(self.sources, uw_style=1)
         return d
 
 
@@ -47,7 +47,7 @@ class NewsSource(db.Model, Serializer):
     url = db.Column(db.String(1024), nullable=False)
     name = db.Column(db.String(1024), nullable=False)
     uw_style = db.Column(db.Boolean, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('NewsCategory.id', ondelete="CASCADE"))
+    category_id = db.Column(db.Integer, db.ForeignKey('NewsCategory.id', ondelete='CASCADE'))
     category = db.relationship('NewsCategory', backref=db.backref('sources'))
 
     def serialize(self):
@@ -55,3 +55,13 @@ class NewsSource(db.Model, Serializer):
         d = Serializer.serialize(self)
         [d.pop(attr, None) for attr in exclude]
         return d
+
+
+class News(db.Model, Serializer):
+    __tablename__ = "News"
+    url = db.Column(db.String(256), primary_key=True)
+    source_id = db.Column(db.Integer, db.ForeignKey('NewsSource.id', ondelete='CASCADE'), primary_key=True)
+    title = db.Column(db.String(512))
+    abstract = db.Column(db.String(2048))
+    image_url = db.Column(db.String(256))
+    date = db.Column(db.Date, index=True)
