@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "ad599e62-e211-4d68-878e-3bcfd538343b",
+		"name": "ece651_remote",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"bob\",\n\t\"password\": \"bob\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/login",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mike\",\n\t\"password\": \"mike\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/users",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user info",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4MDYyMTMzNywiZXhwIjoxNTgwNjI0OTM3fQ.eyJpZCI6Mn0.twY28Gkkg29VHXvCUFHLDcSptJK2oD0VwGnYAE4_7L1MvwfqsyZSjlPINBMgNq0f-YCaCbRcIfazmOf7-jxICA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/users/2",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change user info",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4MDYyMjQ0MSwiZXhwIjoxNTgwNjI2MDQxfQ.eyJpZCI6Mn0.f_rNdpqPIOe7WnAwYYXbn7aylOtHmIW7pRVqn11CbsJoZqFWhzhWYOqURLmsZJQHa697D0gmrmpJeQNghquQ5Q",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Alice Gold\",\n\t\"gender\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/users/2",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get news sources",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://66.112.218.89:5000/api/v1/news-source",
+					"protocol": "http",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"news-source"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin get user list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "admin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://66.112.218.89:5000/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get news per source",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/news/11?page=1",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"news",
+						"11"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user per user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4MzgyMjY4MywiZXhwIjoxNTgzODI2MjgzfQ.eyJpZCI6MX0.q2YWe_T2wfgUQk72Qp5dsfqnvzzziH3O7pgdX5Aof86L_PjruTTkyzMIC2bwmF4y-l8UnKE5g9Hd9DpF8Unktw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "66.112.218.89:5000/api/v1/news?page=2",
+					"host": [
+						"66",
+						"112",
+						"218",
+						"89"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"news"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
