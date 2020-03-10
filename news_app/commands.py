@@ -69,7 +69,7 @@ def delete_admin(username, password):
         return
     else:
         confirm = input("Are you sure you want to delete admin account %s? (y/n) " % username)
-        if not confirm.lower() == 'y':
+        if not confirm.lower().strip() == 'y':
             click.echo('Aborted!')
             return
         db.session.delete(user)
@@ -97,7 +97,7 @@ def init_sources():
 
     """Initialize sources of news."""
     # crawler
-    subprocess.run(['python', 'news_app/crawlers/crawlers.py'], timeout=5, stdout=subprocess.DEVNULL,
+    subprocess.run(['python', 'news_app/crawlers/crawler_sources.py'], timeout=5, stdout=subprocess.DEVNULL,
                    stderr=subprocess.DEVNULL)
 
     def check_source(source, url, category):

@@ -46,5 +46,15 @@ class MissingData(HTTPException):
 
 
 @app.errorhandler(HTTPException)
-def invalid_token(e):
+def customized_error(e):
     return jsonify(error_code=e.error_code, description=e.description), e.code
+
+
+@app.errorhandler(404)
+def not_found_error(e):
+    return jsonify(error_code=None, description='404 Not Found.'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return jsonify(error_code=None, description='Internal Server Error.'), 500

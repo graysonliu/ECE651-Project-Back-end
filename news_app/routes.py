@@ -2,7 +2,8 @@ from flask import request, jsonify
 from news_app.models import *
 from news_app import app, db
 from news_app import errors as e
-from news_app.auth import generate_token, admin_required, login_required
+from news_app.auth import generate_token, admin_required, login_required, login_for_custom_content
+from sqlalchemy.sql import text
 
 
 @app.route('/')
@@ -96,3 +97,40 @@ def login():
 def get_news_source():
     news_source_list = NewsCategory.query.all()
     return jsonify(news_source_list=NewsCategory.serialize_list(news_source_list))
+
+
+@app.route('/api/v1/news', methods=['GET'])
+@login_for_custom_content
+def get_news(user_id=None):
+    page_size = 10
+    page = request.args.get('page', default=1, type=int)
+
+    def get_latest_news_from_all_sources():
+        news = News.query.order_by(News.date.desc()).slice((page - 1) * page_size, page * page_size).all()
+        return jsonify(news=News.serialize_list(news))
+
+    if user_id is None:
+        return get_latest_news_from_all_sources()
+    else:
+        following = User.query.filter_by(id=user_id).first().following
+        if following is None or following.strip() == '':
+            return get_latest_news_from_all_sources()
+        sources = following.strip().split(',')
+        where_str = str()
+        for i, source in enumerate(sources):
+            source_id = int(source.strip())
+            where_str = where_str + 'source_id=%d' % source_id
+            if i != len(sources) - 1:
+                where_str = where_str + ' or '
+        news = News.query.filter(text(where_str)).order_by(News.date.desc()).slice((page - 1) * page_size,
+                                                                                   page * page_size).all()
+        return jsonify(news=News.serialize_list(news))
+
+
+@app.route('/api/v1/news/<int:source_id>', methods=['GET'])
+def get_news_by_source(source_id):
+    page_size = 10
+    page = request.args.get('page', default=1, type=int)
+    news = News.query.filter_by(source_id=source_id).order_by(News.date.desc()).slice((page - 1) * page_size,
+                                                                                      page * page_size).all()
+    return jsonify(news=News.serialize_list(news))

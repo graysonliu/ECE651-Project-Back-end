@@ -62,6 +62,10 @@ def login_for_custom_content(func):
     def wrapper(*args, **kw):
         token = request.headers.get('token')
         if token is None:
-            return func(*args, **kw)
+            kw['user_id'] = None
+        else:
+            user = verify_token(token)
+            kw['user_id'] = None if user == 'admin' else user.id
+        return func(*args, **kw)
 
     return wrapper
