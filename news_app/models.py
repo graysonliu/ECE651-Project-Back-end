@@ -61,7 +61,13 @@ class News(db.Model, Serializer):
     __tablename__ = "News"
     url = db.Column(db.String(256), primary_key=True)
     source_id = db.Column(db.Integer, db.ForeignKey('NewsSource.id', ondelete='CASCADE'), primary_key=True)
+    source = db.relationship('NewsSource')
     title = db.Column(db.String(512))
     abstract = db.Column(db.String(2048))
     image_url = db.Column(db.String(256))
     date = db.Column(db.Date, index=True)
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        d['source'] = self.source.name
+        return d

@@ -3,6 +3,7 @@ import sys
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 import logging
 import re
@@ -14,7 +15,7 @@ class NewsSpider(scrapy.Spider):
     start_urls = []
     custom_settings = {
         'DOWNLOAD_DELAY': 0.25,
-        'LOG_LEVEL': logging.ERROR,
+        'LOG_ENABLED': False
     }
     url_pref = 'https://uwaterloo.ca'
 
@@ -34,8 +35,17 @@ class NewsSpider(scrapy.Spider):
         url_id_dict[source.url] = source.id
         start_urls.append(source.url)
 
+    # logging
+    logger = logging.getLogger('log')
+    logger.setLevel(level=logging.INFO)
+    handler = logging.FileHandler('news.log', mode='w')
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
     def parse(self, response):
-        print(response.url)
+        self.logger.info(response.url)
         if 'archive' not in response.url:
             archive_list = response.css(
                 'div#block-uw-ct-news-item-news-by-date > div >div.item-list > ol > li > a::attr(href)')
@@ -47,22 +57,31 @@ class NewsSpider(scrapy.Spider):
             else:
                 content_list = response.css('div.content_node')
                 for content in content_list:
-                    date = content.css('span.date-display-single::attr(content)').get()[:10]
-                    url = self.url_pref + content.css('h2 a::attr(href)').get()
-                    title = content.css('h2 a::text').get()
-                    image_url = content.css('div.field-type-image div div::attr(resource)').get()
-                    abstract = content.css('div.field-type-text-with-summary div div *').get()
-                    if abstract:
-                        abstract = re.sub(r'<[^<>]*>', '', abstract).strip()
-                    from news_app.models import News
                     try:
+                        date = content.css('span.date-display-single::attr(content)').get()[:10]
+                        url = self.url_pref + content.css('h2 a::attr(href)').get()
+                        title = content.css('h2 a::text').get()
+                        image_url = content.css('div.field-type-image div div::attr(resource)').get()
+                        abstract = content.css('div.field-type-text-with-summary div div *').get()
+                        if abstract:
+                            abstract = re.sub(r'<[^<>]*>', '', abstract).strip()  # replace all HTML tag
+                            abstract = re.sub(r'(\s)+', ' ', abstract)  # combine whitespace
+
+                        from news_app.models import News
                         news = News(url=url, source_id=self.url_id_dict[response.url.rsplit('/', 2)[0]], title=title,
                                     abstract=abstract, date=date, image_url=image_url)
                         self.session.add(news)
                         self.session.commit()
-                    except Exception as e:
-                        print(e)
+                    except IntegrityError as e:
                         self.session.rollback()
+                        sql_message = e.__getattribute__('_sql_message')
+                        if 'Duplicate' in sql_message and 'PRIMARY' in sql_message:
+                            pass
+                        else:
+                            self.logger.error(e.__class__.__name__, exc_info=True)
+                    except Exception as e:
+                        self.session.rollback()
+                        self.logger.error(e.__class__.__name__, exc_info=True)
 
                 if 'page' in response.url:
                     url, page = response.url.rsplit('=')

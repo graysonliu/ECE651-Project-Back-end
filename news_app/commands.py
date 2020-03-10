@@ -69,7 +69,7 @@ def delete_admin(username, password):
         return
     else:
         confirm = input("Are you sure you want to delete admin account %s? (y/n) " % username)
-        if not confirm.lower() == 'y':
+        if not confirm.lower().strip() == 'y':
             click.echo('Aborted!')
             return
         db.session.delete(user)
