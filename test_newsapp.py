@@ -456,12 +456,30 @@ class NewsappTestCase(unittest.TestCase):
         expect = 'Are you sure you want to delete admin account test_admin? (y/n) \nAborted!\n'
         self.assertEqual(expect, result.output)
 
-    # fail to delete
+    # fail to delete, because answer='n'
     @patch('builtins.input', return_value='n')
     def test_delete_admin3(self, input):
         result = self.runner.invoke(delete_admin, args=['--username', 'test_admin', '--password', 'admin'])
         expect = 'Aborted!\n'
         self.assertEqual(expect, result.output)
+
+    # fail to delete, because admin=None
+    def test_delete_admin4(self):
+        result = self.runner.invoke(delete_admin, args=['--username', '', '--password', 'admin'])
+        print(result.output)
+        self.assertEqual('Wrong username or password of admin.\n', result.output)
+
+    # fail to delete, because admin isn't existed
+    def test_delete_admin5(self):
+        result = self.runner.invoke(delete_admin, args=['--username', 'admin', '--password', 'admin'])
+        print(result.output)
+        self.assertEqual('Wrong username or password of admin.\n', result.output)
+
+    # fail to delete, because password is wrong
+    def test_delete_admin6(self):
+        result = self.runner.invoke(delete_admin, args=['--username', 'test_admin', '--password', 'wrong_password'])
+        print(result.output)
+        self.assertEqual('Wrong username or password of admin.\n', result.output)
 
     def test_init_source(self):
         result = self.runner.invoke(init_sources)
