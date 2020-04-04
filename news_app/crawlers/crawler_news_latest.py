@@ -38,19 +38,14 @@ class NewsLatestSpider(scrapy.Spider):
     # logging
     logger = logging.getLogger('log')
     logger.setLevel(level=logging.INFO)
-    handler = logging.FileHandler('news_latest.log', mode='w')
+    handler = logging.FileHandler(abs_path.rsplit('/', 1)[0] + '/crawler_news_latest.log', mode='w')
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
     def parse(self, response):
-        redirect_urls = response.request.meta.get('redirect_urls')  # redirect might happen
-        if redirect_urls:
-            original_url = redirect_urls[0]
-        else:
-            original_url = response.url
-        self.logger.info(original_url)
+        self.logger.info(response.url)
         if response.css('div.view-empty'):
             return
         else:
@@ -67,7 +62,7 @@ class NewsLatestSpider(scrapy.Spider):
                         abstract = re.sub(r'(\s)+', ' ', abstract)  # combine whitespace
 
                     from news_app.models import News
-                    news = News(url=url, source_id=self.url_id_dict[original_url], title=title, abstract=abstract,
+                    news = News(url=url, source_id=self.url_id_dict[response.url], title=title, abstract=abstract,
                                 date=date, image_url=image_url)
                     self.session.add(news)
                     self.session.commit()
