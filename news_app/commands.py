@@ -110,8 +110,8 @@ def init_sources():
         if r.status_code == 200:
             tree = html.fromstring(r.content)
             uw_style_view = tree.cssselect('div.view-uw-news-item-pages-responsive')
-            print(uw_style_view, source, url)
-            db.session.add(NewsSource(url=url, name=source, uw_style=True if uw_style_view else False,
+            print(uw_style_view, source, r.url)
+            db.session.add(NewsSource(url=r.url, name=source, uw_style=True if uw_style_view else False,
                                       category_id=NewsCategory.query.filter_by(name=category).first().id))
             db.session.commit()
 

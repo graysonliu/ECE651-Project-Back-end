@@ -38,7 +38,7 @@ class NewsSpider(scrapy.Spider):
     # logging
     logger = logging.getLogger('log')
     logger.setLevel(level=logging.INFO)
-    handler = logging.FileHandler('news.log', mode='w')
+    handler = logging.FileHandler(abs_path.rsplit('/', 1)[0] + '/news_latest.log', mode='w')
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
