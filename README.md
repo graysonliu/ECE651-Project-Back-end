@@ -1,9 +1,5 @@
 # ECE651-Project-Back-end
 
-## Server
-
-Flask running at http://66.112.218.89:5000.
-
 ## API
 
 Put token in HTTP headers when it is required.
